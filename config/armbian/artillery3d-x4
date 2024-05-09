@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Shebang for better file detection
+# shellcheck enable=require-variable-braces
+
+BASE_ARCH="arm64"
+
+# Image source
+DOWNLOAD_BASE_URL="https://evilazrael.net/tmp/armbian"
+DOWNLOAD_URL_CHECKSUM="${DOWNLOAD_BASE_URL}/Armbian_24.5.0-trunk_Artilleryx4_bookworm_current_6.6.30.img.xz"
+DOWNLOAD_URL_IMAGE="${DOWNLOAD_BASE_URL}/Armbian_24.5.0-trunk_Artilleryx4_bookworm_current_6.6.30.img.xz.sha"
+
+# export Variables
+export BASE_ARCH
+export DOWNLOAD_URL_CHECKSUM
+export DOWNLOAD_URL_IMAGE
+
+### JSON sniplet Setup
+### NOTE: Please see all config files for setup variables!!!
+# shellcheck disable=SC2034
+JSON_PRETTY_SBC_NAME="Artillery3D X4"
+# shellcheck disable=SC2034
+JSON_SUPPORTED_SBC="artillery3d-x4"
