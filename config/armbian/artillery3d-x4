@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Shebang for better file detection
 # shellcheck enable=require-variable-braces
-
 BASE_ARCH="arm64"
 
 # Image source
@@ -23,3 +22,5 @@ export DOWNLOAD_URL_IMAGE
 JSON_PRETTY_SBC_NAME="Artillery3D X4"
 # shellcheck disable=SC2034
 JSON_SUPPORTED_SBC="artillery3d-x4"
+
+#sdgih8ogsdfsdfsdcvcxsdds

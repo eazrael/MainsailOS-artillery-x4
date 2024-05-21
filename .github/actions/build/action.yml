@@ -8,7 +8,7 @@ inputs:
   custompios-repository:
     description: "Repository for CustomPiOS"
     required: false
-    default: "guysoft/CustomPiOS"
+    default: "eazrael/CustomPiOS"
   custompios-ref:
     description: "Branch / Tag / SHA to checkout CustomPiOS"
     required: false
@@ -26,7 +26,7 @@ runs:
   steps:
     - name: Install Dependencies
       shell: bash
-      run: sudo apt update; sudo apt install --yes aria2 coreutils jq p7zip-full qemu-user-static zip
+      run: sudo apt update; sudo apt install --yes aria2 coreutils jq p7zip-full qemu-user-static zip fdisk kmod
 
     - name: Checkout CustomPiOS
       uses: actions/checkout@v4
@@ -38,7 +38,7 @@ runs:
     - name: Read board config
       id: config
       shell: bash
-      run: |
+      run: |     
         IFS='/' read -r -a array <<< "${{ inputs.config }}"
         TYPE=${array[0]}
         SBC=${array[1]}
@@ -60,9 +60,11 @@ runs:
         if [[ -f "$SBC_FILE" ]]; then
           cat "${SBC_FILE}" >> ./repository/src/config
         fi
+        echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Read board config
+        env |sort    
 
         source ./repository/src/config
-
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 2" 1>&2
         echo $DOWNLOAD_URL_CHECKSUM
         echo $DOWNLOAD_URL_IMAGE
         echo $MODULES
@@ -71,11 +73,18 @@ runs:
         echo "DOWNLOAD_URL_CHECKSUM=${DOWNLOAD_URL_CHECKSUM}" >> $GITHUB_OUTPUT
         echo "DOWNLOAD_URL_IMAGE=${DOWNLOAD_URL_IMAGE}" >> $GITHUB_OUTPUT
         echo "MODULES=${MODULES}" >> $GITHUB_OUTPUT
-
+        echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Read board config
+        env |sort
+        cat $GITHUB_OUTPUT
+        ls -al /dev/ 1>&2
+        
     - name: Base Image Checksum
       id: checksum
       shell: bash
       run: |
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 3" 1>&2
+        env | sort
+        echo checksum ${{ steps.config.outputs.DOWNLOAD_URL_CHECKSUM }}
         cd repository/src/image
         FILENAME=$(basename ${{ steps.config.outputs.DOWNLOAD_URL_CHECKSUM }})
         wget -O ${FILENAME} ${{ steps.config.outputs.DOWNLOAD_URL_CHECKSUM }}
@@ -84,6 +93,7 @@ runs:
 
         echo "CHECKSUM=${CHECKSUM}" >> $GITHUB_OUTPUT
         echo "FILENAME=${FILENAME}" >> $GITHUB_OUTPUT
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 4" 1>&2
 
     - name: Cache Base Source Image
       id: cache
@@ -95,7 +105,9 @@ runs:
     - name: Download Base Source Image via Torrent
       if: steps.cache.outputs.cache-hit != 'true' && endswith(steps.config.outputs.DOWNLOAD_URL_IMAGE, '.torrent')
       shell: bash
-      run: aria2c -d repository/src/image --seed-time=0 ${{ steps.config.outputs.DOWNLOAD_URL_IMAGE }}
+      run: |
+        aria2c -d repository/src/image --seed-time=0 ${{ steps.config.outputs.DOWNLOAD_URL_IMAGE }}
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 5" 1>&2
 
     - name: Download Base Source Image via wget
       if: steps.cache.outputs.cache-hit != 'true' && !endswith(steps.config.outputs.DOWNLOAD_URL_IMAGE, '.torrent')
@@ -103,16 +115,20 @@ runs:
       run: |
         cd repository/src/image
         wget ${{ steps.config.outputs.DOWNLOAD_URL_IMAGE }}
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 6" 1>&2
 
     - name: Comparing Checksums
       shell: bash
       run: |
         cd repository/src/image
         sha256sum -b ${{ steps.checksum.outputs.FILENAME }}
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 7" 1>&2
 
     - name: Update CustomPiOS Paths
       shell: bash
-      run: cd repository/src && ../../CustomPiOS/src/update-custompios-paths
+      run: |
+        cd repository/src && ../../CustomPiOS/src/update-custompios-paths
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 8" 1>&2
 
     - name: Build Image
       shell: bash

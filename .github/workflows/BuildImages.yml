@@ -2,7 +2,7 @@ name: Build MainsailOS
 on:
   push:
     branches:
-      - "develop"
+      - "artilleryx4"
     paths:
       - "src/modules/**"
       - "src/build_dist"
@@ -40,6 +40,7 @@ jobs:
       - name: Create Matrix
         id: set-matrix
         run: |
+          pip install pyyaml
           PY_INT=$(command -v python3)
           CONFIG="${{ github.workspace }}/.github/workflow_config.yml"
           GROUP="buildtest"
@@ -48,6 +49,9 @@ jobs:
   build:
     needs: setup
     runs-on: ubuntu-latest
+    container:
+      volumes:
+        - "/lib/modules:/lib/modules"
     strategy:
       fail-fast: false
       matrix:
@@ -63,7 +67,7 @@ jobs:
         id: build
         uses: ./repository/.github/actions/build
         with:
-          config: ${{ matrix.config }}
+          config: "armbian/artillery3d-x4"
 
       - name: Rename image file
         id: move-image
