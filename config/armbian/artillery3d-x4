@@ -23,4 +23,13 @@ JSON_PRETTY_SBC_NAME="Artillery3D X4"
 # shellcheck disable=SC2034
 JSON_SUPPORTED_SBC="artillery3d-x4"
 
-#sdgih8ogsdfsdfsdcvcxsdds
+KLIPPER_REPO_SHIP="https://github.com/eazrael/klipper.git"
+KLIPPER_REPO_BRANCH="artilleryx4"
+export KLIPPER_REPO_SHIP
+export KLIPPER_REPO_BRANCH
+
+MODULES="base(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,artilleryx4config))"
+export MODULES
+
+MAKEFLAGS="-j"
+export MAKEFLAGS
