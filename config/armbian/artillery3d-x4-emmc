@@ -7,10 +7,6 @@ BASE_ARCH="arm64"
 DOWNLOAD_BASE_URL="https://evilazrael.net/tmp/armbian"
 DOWNLOAD_URL_CHECKSUM="${DOWNLOAD_BASE_URL}/Armbian_24.5.0-trunk_Artilleryx4_bookworm_current_6.6.31.img.xz.sha"
 DOWNLOAD_URL_IMAGE="${DOWNLOAD_BASE_URL}/Armbian_24.5.0-trunk_Artilleryx4_bookworm_current_6.6.31.img.xz"
-# export Variables
-export BASE_ARCH
-export DOWNLOAD_URL_CHECKSUM
-export DOWNLOAD_URL_IMAGE
 
 ### JSON sniplet Setup
 ### NOTE: Please see all config files for setup variables!!!
@@ -21,15 +17,23 @@ JSON_SUPPORTED_SBC="artillery3d-x4"
 
 KLIPPER_REPO_SHIP="https://github.com/eazrael/klipper.git"
 KLIPPER_REPO_BRANCH="artilleryx4"
-export KLIPPER_REPO_SHIP
-export KLIPPER_REPO_BRANCH
 
 MODULES="base(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,artilleryx4config))"
 export MODULES
 
 MAKEFLAGS="-j"
+
+BASE_IMAGE_ENLARGEROOT=0
+BASE_IMAGE_RESIZEROOT=0
+
+# export Variables
+export BASE_ARCH
+export BASE_IMAGE_ENLARGEROOT
+export BASE_IMAGE_RESIZEROOT
+export DOWNLOAD_URL_CHECKSUM
+export DOWNLOAD_URL_IMAGE
+export KLIPPER_REPO_BRANCH
+export KLIPPER_REPO_SHIP
 export MAKEFLAGS
-
-export -n BASE_IMAGE_ENLARGEROOT
-
+export MODULES
 
