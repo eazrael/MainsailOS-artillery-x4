@@ -4,9 +4,9 @@
 BASE_ARCH="arm64"
 
 # Image source
-DOWNLOAD_BASE_URL="https://github.com/eazrael/armbian-build-artillery-x4/releases/download/24.5.1"
-DOWNLOAD_URL_CHECKSUM="${DOWNLOAD_BASE_URL}/Armbian_24.5.1_Artilleryx4_bookworm_current_6.6.32.img.xz.sha"
-DOWNLOAD_URL_IMAGE="${DOWNLOAD_BASE_URL}/Armbian_24.5.1_Artilleryx4_bookworm_current_6.6.32.img.xz"
+DOWNLOAD_BASE_URL="https://github.com/eazrael/armbian-build-artillery-x4/releases/download/24.5.1-20240602151059/Armbian_24.5.1-20240602151059_Artilleryx4_bookworm_current_6.6.32.img"
+DOWNLOAD_URL_CHECKSUM="${DOWNLOAD_BASE_URL}.xz.sga"
+DOWNLOAD_URL_IMAGE="${DOWNLOAD_BASE_URL}.xz"
 BASE_IMAGE_ENLARGEROOT=4000
 
 # export Variables

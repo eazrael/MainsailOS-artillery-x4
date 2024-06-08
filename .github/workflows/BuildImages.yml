@@ -71,8 +71,10 @@ jobs:
         shell: bash
         run: |
           source repository/src/config
-          NOW="$(date +"%Y-%m-%d")"
-          IMAGE="${NOW}-${DIST_NAME}-${DIST_VERSION}-${{ steps.build.outputs.type }}-${{ steps.build.outputs.sbc }}"
+          #NOW="$(date +"%Y-%m-%d")"
+          #IMAGE="${NOW}-${DIST_NAME}-${DIST_VERSION}-${{ steps.build.outputs.type }}-${{ steps.build.outputs.sbc }}"
+          NOW=$(date +"%Y%m%d%H%M%S")
+          IMAGE="${DIST_NAME}-${DIST_VERSION}-${{ steps.build.outputs.type }}-${{ steps.build.outputs.sbc }}-${NOW}"
 
           mv repository/src/workspace/*.img $IMAGE.img
 
@@ -115,3 +117,19 @@ jobs:
         with:
           name: ${{ steps.move-image.outputs.image }}.img.sha256
           path: ${{ steps.move-image.outputs.image }}.img.sha256
+
+      - name: Upload github
+        uses: ncipollo/release-action@v1
+        with:
+          #tag: "${{ env.ARMBIAN_VERSION }}"
+          tag: "${{ steps.move-image.outputs.image }}"
+          name: "${{ steps.move-image.outputs.image }}"
+          artifacts: "${{ steps.move-image.outputs.image }}.img.xz*"
+          allowUpdates: true
+          removeArtifacts: false
+          replacesArtifacts: true
+          makeLatest: true
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          body: |
+            ${{ steps.move-image.outputs.image }}
+    
