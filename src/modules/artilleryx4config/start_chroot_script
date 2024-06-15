@@ -48,4 +48,8 @@ echo_green "Configure Artillery X4"
 ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-hw.cfg /home/"${BASE_USER}"/printer_data/config/printer_hw.cfg
 ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-macros.cfg /home/"${BASE_USER}"/printer_data/config/macros.cfg
 
+echo_green "Enable linux kernel verbose logging"
+sed -i 's/^kernel.printk/#&/' /etc/sysctl.conf
+sed -i 's/^verbosity=1$/verbosity=8/' "${ARMBIAN_CONFIG_TXT_FILE}"
+echo 'earlycon=on' >> "${ARMBIAN_CONFIG_TXT_FILE}"
 echo_green "Finished artillery x4 configuration"
