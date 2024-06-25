@@ -45,7 +45,7 @@ sudo -u "${BASE_USER}" make -j
 popd &> /dev/null || exit 1
 
 echo_green "Configure Artillery X4"
-ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-hw.cfg /home/"${BASE_USER}"/printer_data/config/printer_hw.cfg
+ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-plus.cfg /home/"${BASE_USER}"/printer_data/config/printer_hw.cfg
 ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-macros.cfg /home/"${BASE_USER}"/printer_data/config/macros.cfg
 
 echo_green "Enable linux kernel verbose logging"
