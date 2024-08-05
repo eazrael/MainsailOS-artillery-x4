@@ -13,3 +13,11 @@
 ####
 
 [[ -n "${ARTILLERY_X4_MODEL}" ]] || ARTILLERY_X4_MODEL="plus"
+[[ -n "${ARTILLERY_X4_PKGS}" ]] || ARTILLERY_X4_PKGS="python3-serial python3-requests"
+
+# Support for the stock display computer
+#[[ -n "$KLIPPERLCD_REPO_SHIP" ]] || KLIPPERLCD_REPO_SHIP="https://github.com/joakimtoe/KlipperLCD.git"
+#[[ -n "$KLIPPERLC_REPO_BRANCH" ]] || KLIPPERLCD_REPO_BRANCH="master"
+
+export ARTILLERY_X4_MODEL
+export ARTILLERY_X4_PKGS

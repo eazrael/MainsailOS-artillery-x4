@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Shebang for better file detection
 # shellcheck enable=require-variable-braces
+ARTILLERY_X4_MODEL="plus"
 BASE_ARCH="arm64"
 
 # Image source
@@ -8,7 +9,6 @@ DOWNLOAD_BASE_URL="https://github.com/eazrael/armbian-build-artillery-x4/release
 DOWNLOAD_URL_CHECKSUM="${DOWNLOAD_BASE_URL}.sha"
 DOWNLOAD_URL_IMAGE="${DOWNLOAD_BASE_URL}"
 BASE_IMAGE_ENLARGEROOT=4000
-
 
 ### JSON sniplet Setup
 ### NOTE: Please see all config files for setup variables!!!
@@ -20,10 +20,11 @@ JSON_SUPPORTED_SBC="artillery3d-x4"
 KLIPPER_REPO_SHIP="https://github.com/eazrael/klipper.git"
 KLIPPER_REPO_BRANCH="artilleryx4"
 
-MODULES="base(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,artilleryx4config))"
+MODULES="base(dnsfix(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,kiauh,artilleryx4config,vocore)))"
 
 
 # export Variables
+export ARTILLERY_X4_MODEL
 export BASE_ARCH
 export BASE_IMAGE_ENLARGEROOT
 export BASE_IMAGE_RESIZEROOT

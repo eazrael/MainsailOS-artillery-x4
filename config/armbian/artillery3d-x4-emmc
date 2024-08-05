@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Shebang for better file detection
 # shellcheck enable=require-variable-braces
+ARTILLERY_X4_MODEL="plus"
 BASE_ARCH="arm64"
 
 # Image source
@@ -18,12 +19,13 @@ JSON_SUPPORTED_SBC="artillery3d-x4-emmc"
 KLIPPER_REPO_SHIP="https://github.com/eazrael/klipper.git"
 KLIPPER_REPO_BRANCH="artilleryx4"
 
-MODULES="base(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,artilleryx4config))"
+MODULES="base(dnsfix(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,kiauh,artilleryx4config,vocore)))"
 
 BASE_IMAGE_ENLARGEROOT=0
 BASE_IMAGE_RESIZEROOT=0
 
 # export Variables
+export ARTILLERY_X4_MODEL
 export BASE_ARCH
 export BASE_IMAGE_ENLARGEROOT
 export BASE_IMAGE_RESIZEROOT

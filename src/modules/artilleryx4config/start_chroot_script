@@ -24,9 +24,7 @@ export LC_ALL=C
 source /common.sh
 install_cleanup_trap
 
-echo_green "Copy files"
-unpack /filesystem/home/"${BASE_USER}" /home/"${BASE_USER}" "${BASE_USER}"
-
+set -x 
 echo_green "Setup host firmware/service"
 # Disable real-time throttling TODO: check if really necessary or set via kernel
 echo -e "\nkernel.sched_rt_runtime_us = -1\n" >> /etc/sysctl.d/10-disable-rt-group-limit.conf
@@ -44,9 +42,21 @@ sudo -u "${BASE_USER}" cp config_mcu .config
 sudo -u "${BASE_USER}" make -j
 popd &> /dev/null || exit 1
 
-echo_green "Configure Artillery X4"
-ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-plus.cfg /home/"${BASE_USER}"/printer_data/config/printer_hw.cfg
+echo_green "Configure Artillery X4 ${ARTILLERY_X4_MODEL}"
+cp /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-local.cfg /home/"${BASE_USER}"/printer_data/config/printer.cfg
+ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-${ARTILLERY_X4_MODEL}.cfg /home/"${BASE_USER}"/printer_data/config/printer_hw.cfg
 ln -s /home/"${BASE_USER}"/klipper/config/printer-artillery-sidewinder-x4-macros.cfg /home/"${BASE_USER}"/printer_data/config/macros.cfg
+chown -h "${BASE_USER}:${BASE_USER}" /home/"${BASE_USER}"/printer_data/config/*.cfg
+
+if [ -n "${ARTILLERY_X4_PKGS}" ] ; then 
+    echo_green "Install additional requirements" 
+    check_install_pkgs ${ARTILLERY_X4_PKGS}
+fi
+
+# echo_green "Install KlipperLCD" 
+# pushd /home/"${BASE_USER}"/klipper &> /dev/null || exit 1
+# gitclone KLIPPERLCD_REPO klipperlcd
+# popd &> /dev/null || exit 1
 
 echo_green "Enable linux kernel verbose logging"
 sed -i 's/^kernel.printk/#&/' /etc/sysctl.conf
