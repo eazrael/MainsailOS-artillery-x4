@@ -27,7 +27,7 @@ MN_BUILD_PACKAGE_FILE="/tmp/mn_packages.lst"
 MN_BUILD_INSTALL_SH="/home/${BASE_USER}/moonraker/scripts/install-moonraker.sh"
 
 echo_green "Installing Moonraker and enable Moonraker Service ..."
-
+set -x
 ## Force apt update
 apt-get update
 ## Make sure 'git' is installed!
@@ -41,7 +41,7 @@ gitclone MOONRAKER_REPO moonraker
 
 ## Step 3: grep PKGLIST from install-moonraker.sh for dependencies
 echo_green "Generating packages file ..."
-grep "PKGLIST=" "${MN_BUILD_INSTALL_SH}" >> "${MN_BUILD_PACKAGE_FILE}"
+grep "PACKAGES=" "${MN_BUILD_INSTALL_SH}" >> "${MN_BUILD_PACKAGE_FILE}"
 
 ## Step 4: Rename PKGLIST to Module usable Var
 echo_green "Rename variable PKGLIST to MOONRAKER_DEPS ..."
