@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#### MainsailOS Specific Tweaks for armbian images
+####
+#### Written by Stephan Wendel aka KwadFan <me@stephanwe.de>
+#### Copyright 2023 - till today
+#### https://github.com/mainsail-crew/MainsailOS
+####
+#### This File is distributed under GPLv3
+####
+
+# This may interfere with any resolv.conf created by other modules
+# fingerprinting for detecting changes may be a solution... 
+
+
+# shellcheck enable=require-variable-braces
+# Source error handling, leave this in place
+set -Ee
+
+# Source CustomPIOS common.sh
+# shellcheck disable=SC1091
+source /common.sh
+install_cleanup_trap
+
+echo_yellow(){
+    echo -e "\e[33m${1}\e[0m"
+}
+
+set -x
+
+ls -al /etc/resolv.conf
+
+if [ -h /etc/resolv.conf -a ! -e /etc/resolv.conf ]; then 
+    echo_yellow "/etc/resolv.conf is a symlink to a non-existing file. Creating temporary default."
+    mv /etc/resolv.conf /etc/resolv.conf.backup
+    echo "nameserver 1.0.0.1"  > /etc/resolv.conf
+fi
+
+ls -al /etc/resolv.conf
+
+if [ ! -f /etc/resolv.conf ]; then 
+    echo_yellow "/etc/resolv.conf not found. Creating temporary default."
+    echo "nameserver 1.0.0.1"  > /etc/resolv.conf
+    touch /etc/resolv.conf.remove     
+fi
+
+set +x

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#### MainsailOS Specific Tweaks for armbian images
+####
+#### Written by Stephan Wendel aka KwadFan <me@stephanwe.de>
+#### Copyright 2023 - till today
+#### https://github.com/mainsail-crew/MainsailOS
+####
+#### This File is distributed under GPLv3
+####
+
+# shellcheck enable=require-variable-braces
+# Source error handling, leave this in place
+set -Ee
+
+# Source CustomPIOS common.sh
+# shellcheck disable=SC1091
+source /common.sh
+install_cleanup_trap
+
+echo_yellow(){
+    echo -e "\e[33m${1}\e[0m"
+}
+
+set -x 
+echo_yellow "dnsfix cleanup"
+ls -al /etc/
+
+
+if [ -e /etc/resolv.conf.remove ]; then 
+    echo_yellow "Removing temporary resolv.conf" 
+    rm -f /etc/resolv.conf /etc/resolv.conf.remove 
+fi
+
+if [ -e /etc/resolv.conf.backup -o -h /etc/resolv.conf.backup ]; then
+    echo_yellow "Restoring original resolv.conf"
+    rm -r /etc/resolv.conf
+    mv /etc/resolv.conf.backup /etc/resolv.conf
+fi
