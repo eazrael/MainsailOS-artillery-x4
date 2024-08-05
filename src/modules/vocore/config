@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Shebang for better file detection
+#### mainsail module config
+####
+#### Based on work of:
+#### Raymond Himle and meteyou
+####
+#### Written by Stephan Wendel aka KwadFan <me@stephanwe.de>
+#### Copyright 2021 - 2022
+#### https://github.com/mainsail-crew/MainsailOS
+####
+#### This File is distributed under GPLv3
+####
+
+[[ -n "$VOCORE_REPO_SHIP" ]] || VOCORE_REPO_SHIP="https://github.com/Vonger/vocore2.git"
+[[ -n "$VOCORE_REPO_BRANCH" ]] || VOCORE_REPO_BRANCH="master"

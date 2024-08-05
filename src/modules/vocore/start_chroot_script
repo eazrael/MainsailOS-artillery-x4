@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#### artillery x4 config  module
+####
+#### Based on work of:
+#### Raymond Himle and meteyou
+####
+#### Written by Stephan Wendel aka KwadFan <me@stephanwe.de>
+#### Copyright 2021 - 2022
+#### https://github.com/mainsail-crew/MainsailOS
+####
+#### This File is distributed under GPLv3
+####
+
+# shellcheck enable=require-variable-braces
+
+# Source error handling, leave this in place
+set -Ee
+
+# Set LC_ALL to prevent errors
+export LC_ALL=C
+
+# Source CustomPIOS common.sh
+# shellcheck disable=SC1091
+source /common.sh
+install_cleanup_trap
+
+linux_header_dir=$(basename /usr/src/linux-headers-*)
+kernel_version=$(cut -f 3- -d '-' <<< ${linux_header_dir})
+
+echo_green "Compile usbfb kernel module"
+pushd /home/${BASE_USER}/ &> /dev/null ||exit 1
+
+gitclone VOCORE_REPO vocore2
+cd vocore2/utils/fbusb/src &>/dev/null || exit 1
+
+# patch fbusb for newer kernels
+sed  -i 's/ FBINFO_DEFAULT | //' fbusb.c
+make -C /usr/src/${linux_header_dir}/ M=$(pwd) modules # compile
+sudo mkdir -p /lib/modules/${kernel_version}/extra
+sudo cp fbusb.ko /lib/modules/${kernel_version}/extra/ # install module
+sudo depmod -v -a ${kernel_version} 1>&2 # for autoloading
+
+popd &> /dev/null || exit 1
+
+echo_green "Installed vocore driver"
