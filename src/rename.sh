@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC1091 
 source config
 NOW=$(date +"%Y%m%d%H%M%S")
 IMAGE="${DIST_NAME}-${DIST_VERSION}-${BASE_DISTRO}-${JSON_SUPPORTED_SBC}-${NOW}"

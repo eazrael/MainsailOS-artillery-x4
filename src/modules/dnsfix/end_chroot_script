@@ -31,7 +31,7 @@ if [ -e /etc/resolv.conf.remove ]; then
     rm -f /etc/resolv.conf /etc/resolv.conf.remove 
 fi
 
-if [ -e /etc/resolv.conf.backup -o -h /etc/resolv.conf.backup ]; then
+if [ -e /etc/resolv.conf.backup ] || [ -h /etc/resolv.conf.backup ]; then
     echo_yellow "Restoring original resolv.conf"
     rm -r /etc/resolv.conf
     mv /etc/resolv.conf.backup /etc/resolv.conf

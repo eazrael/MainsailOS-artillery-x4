@@ -29,7 +29,7 @@ set -x
 
 ls -al /etc/resolv.conf
 
-if [ -h /etc/resolv.conf -a ! -e /etc/resolv.conf ]; then 
+if [ -h /etc/resolv.conf ] &&  [ ! -e /etc/resolv.conf ]; then 
     echo_yellow "/etc/resolv.conf is a symlink to a non-existing file. Creating temporary default."
     mv /etc/resolv.conf /etc/resolv.conf.backup
     echo "nameserver 1.0.0.1"  > /etc/resolv.conf
