@@ -55,18 +55,6 @@ ln -s "/home/${BASE_USER}/klipper/config/printer-artillery-sidewinder-x4-macros.
     "/home/${BASE_USER}/printer_data/config/macros.cfg"
 chown -h "${BASE_USER}:${BASE_USER}" "/home/${BASE_USER}/printer_data/config/"*.cfg
 
-if [ -n "${ARTILLERY_X4_PKGS}" ] ; then 
-    echo_green "Install additional requirements" 
-    # shellcheck disable=SC1091
-    check_install_pkgs ${ARTILLERY_X4_PKGS}
-fi
-
-# TODO: push this to klipperLCD module
-# echo_green "Install KlipperLCD" 
-# pushd /home/"${BASE_USER}"/klipper &> /dev/null || exit 1
-# gitclone KLIPPERLCD_REPO klipperlcd
-# popd &> /dev/null || exit 1
-
 echo_green "Enable linux kernel verbose logging"
 sed -i 's/^kernel.printk/#&/' /etc/sysctl.conf
 sed -i 's/^verbosity=1$/verbosity=8/' "${ARMBIAN_CONFIG_TXT_FILE}"

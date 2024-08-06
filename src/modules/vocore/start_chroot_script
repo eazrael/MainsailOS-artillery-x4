@@ -36,7 +36,7 @@ cd vocore2/utils/fbusb/src &>/dev/null || exit 1
 # patch fbusb for newer kernels
 sed  -i 's/ FBINFO_DEFAULT | //' fbusb.c
 
-make -C "/usr/src/${linux_header_dir}/" M=$(pwd) modules # compile
+make -C "/usr/src/${linux_header_dir}/" M="$(pwd)" modules # compile
 sudo mkdir -p "/lib/modules/${kernel_version}/extra"
 sudo cp fbusb.ko "/lib/modules/${kernel_version}/extra/" # install module
 sudo depmod -v -a "${kernel_version}" 1>&2 # for autoloading

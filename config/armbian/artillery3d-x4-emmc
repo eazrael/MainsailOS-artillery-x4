@@ -19,7 +19,7 @@ JSON_SUPPORTED_SBC="artillery3d-x4-emmc"
 KLIPPER_REPO_SHIP="https://github.com/eazrael/klipper.git"
 KLIPPER_REPO_BRANCH="artilleryx4"
 
-MODULES="base(dnsfix(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,kiauh,artilleryx4config,vocore)))"
+MODULES="base(dnsfix(pkgupgrade,udev_fix,armbian(armbian_net,mainsailos,klipper,is_req_preinstall,moonraker,mainsail,timelapse,crowsnest,sonar,kiauh,artilleryx4config)))"
 
 BASE_IMAGE_ENLARGEROOT=0
 BASE_IMAGE_RESIZEROOT=0

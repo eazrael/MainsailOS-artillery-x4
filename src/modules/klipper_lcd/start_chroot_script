@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#### artillery x4 config  module
+####
+#### Based on work of:
+#### Raymond Himle and meteyou
+####
+#### Written by Stephan Wendel aka KwadFan <me@stephanwe.de>
+#### Copyright 2021 - 2022
+#### https://github.com/mainsail-crew/MainsailOS
+####
+#### This File is distributed under GPLv3
+####
+
+# shellcheck enable=require-variable-braces
+
+# Source error handling, leave this in place
+set -Ee
+
+# Set LC_ALL to prevent errors
+export LC_ALL=C
+
+# Source CustomPIOS common.sh
+# shellcheck disable=SC1091
+source /common.sh
+install_cleanup_trap
+
+# echo_green "Install KlipperLCD" 
+
+if [ -n "${KLIPPERLCD_PKGS}" ] ; then 
+    echo_green "Install additional requirements" 
+    # shellcheck disable=SC2086
+    check_install_pkgs ${KLIPPERLCD_PKGS}
+fi
+
+echo_green "Install KlipperLCD" 
+pushd "/home/${BASE_USER}/klipper" &> /dev/null || exit 1
+gitclone KLIPPERLCD_REPO klipperlcd
+# TODO:  missing installation code
+popd &> /dev/null || exit 1
+
+echo_green "Finished KlipperLCD installation"
